@@ -1,0 +1,90 @@
+<?php
+$myarray=array('0'=>array(
+			'name'=>'myname',
+			'url'=>'www.gogle.com'),
+		'1'=>array(
+			'name'=>'myname1',
+			'url'=>'www.gogle1.com'),
+	);
+echo $jsonarr=json_encode($myarray);
+
+die;
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+
+<script type="text/javascript" src="jquery.quicksearch.js"></script>
+<script type="text/javascript">
+
+$(function () {
+	$('input#id_search').quicksearch('table#country_codes tbody tr');			
+});
+</script>
+<style>
+table#country_codes {
+    border-collapse: collapse;   
+}
+#country_codes tr {
+    background-color: #eee;
+    border-top: 1px solid #fff;
+}
+#country_codes tr:hover {
+    background-color: #ccc;
+}
+#country_codes th {
+    background-color: #fff;
+}
+#country_codes th, #country_codes td {
+    padding: 3px 5px;
+}
+#country_codes td:hover {
+    cursor: pointer;
+}
+</style>
+</head>
+<body>
+<div class="frm" style="padding:20px;">
+  <form name="form1" method="post" action="#" id="form1">
+    <div>
+      <input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwULLTExOTI5NTg5NjlkZN5lFByb1RBgNPDi90V4+sexG8/O" />
+    </div>
+    <fieldset>
+      <label> <strong>Quick Search :</strong></label>
+      <input type="text" name="search" value="" id="id_search" />
+    </fieldset>
+  </form>
+  <div class="grid popup">
+  <table cellpadding="0" cellspacing="0" border="0" class="example" id="country_codes">
+    <thead>
+      <tr>
+        <th width="50%"> Name</th>
+        <th width="50%"> URL</th>
+      </tr>
+    </thead>
+    <tbody>
+	<?php 
+		foreach($myarray as $key=>$val){
+						
+			
+	?>
+	<tr class="<?=$key?>">
+		<th onclick="mufun('<?=$val['url']?>')"><?=$val['name']?></th>
+		<td onclick="mufun('<?=$val['url']?>')"><?=$val['url']?></td>	
+	</tr>
+	<?php
+	}	
+?>
+     
+    </tbody>
+  </table>
+  </div>
+</div>
+<script>
+function mufun(val){
+	$('#myval').val(val);
+	parent.jQuery.colorbox.close();
+}
+	</script>
+</body>
+</html>

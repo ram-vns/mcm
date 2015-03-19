@@ -1,0 +1,145 @@
+<?php
+header("Access-Control-Allow-Origin: *");
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+<!--<script type="text/javascript" src="jquery-1.10.2.js"></script>-->
+<script type="text/javascript" src="popup/jquery.quicksearch.js"></script>
+
+
+
+<script type="text/javascript">
+
+$(function () {
+	//$('input#id_search').quicksearch('table#codes tbody tr');			
+});
+
+var postdata = {
+            id: 1,
+            name:'check'
+        }
+        
+ $.ajax({
+        url: 'http://54.179.170.143/multitvfinal/api/ads/revive_ads',
+        type: 'get',
+        dataType: 'jsonp',
+        beforeSend: function(){
+            $("#loading").show();
+        },
+        complete: function(){
+          $("#loading").hide();
+        },
+        success: function(data, textStatus, jqXHR) {
+         //  alert(data);
+        // since we are using jQuery, you don't need to parse response
+        drawTable(data);
+        },
+        error: function(xhr, textStatus, errorThrown){ 
+       // alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+       // alert(textStatus);
+       $('#codes').height('100px');
+                var row = $("<tr />")
+               $("#codes").append(row); //this will append tr element to table... keep its reference for a while since we will add cels into it
+              // row.append($("<td>" + rowData.id + "</td>"));
+               
+               row.append($("<td colspan='2' vlaign='top' align='center'><b>Error:Please contact your admin.</b></td>"));
+          }  
+    });
+    
+function drawTable(data) {
+    if(data.length>0)
+    {
+        var row = $("<tr />")
+        $("#codes").append(row); //this will append tr element to table... keep its reference for a while since we will add cels into it
+        row.append($("<td><b>Name</b></td>"));
+        row.append($("<td><b>Path</b></td>"));
+
+            for (var i = 0; i < data.length; i++) {
+                drawRow(data[i],i);
+            }
+    }
+    else
+    {
+        var row = $("<tr />")
+        $("#codes").append(row); //this will append tr element to table... keep its reference for a while since we will add cels into it
+       // row.append($("<td>" + rowData.id + "</td>"));
+        row.className = i;
+        row.append($("<td colspan='2'><b>No ad video added.Please contact your admin.</b></td>"));
+    }
+}
+
+function drawRow(rowData,i) {
+    var row = $("<tr />")
+    $("#codes").append(row); //this will append tr element to table... keep its reference for a while since we will add cels into it
+   // row.append($("<td>" + rowData.id + "</td>"));
+    row.className = i;
+    row.append($("<td onclick=\"mufun('"+rowData.path+"')\">" + rowData.title + "</td>"));
+    row.append($("<td onclick=\"mufun('"+rowData.path+"')\">" + rowData.path + "</td>"));
+}
+</script>
+<style>
+#codes table {
+  border: 1px solid #666;   
+    width: 100%;
+}
+#codes th {
+  background: #f8f8f8; 
+  font-weight: bold;    
+    padding: 2px;
+}
+
+#codes tr {
+    background-color: #eee;
+    border-top: 1px solid #fff;
+}
+#codes tr:hover {
+    background-color: #ccc;
+}
+#codes th {
+    background-color: #fff;
+}
+#codes th, #codes td {
+    padding: 3px 5px;
+}
+#codes td:hover {
+    cursor: pointer;
+}
+</style>
+</head>
+<body>
+<div class="frm" style="padding:20px;">
+ <!--<form name="form1" method="post" action="#" id="form1">
+    <div>
+      <input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwULLTExOTI5NTg5NjlkZN5lFByb1RBgNPDi90V4+sexG8/O" />
+    </div>
+    <fieldset>
+      <label> <strong>Quick Search :</strong></label>
+      <input type="text" name="search" value="" id="id_search" />
+    </fieldset>
+  </form> -->
+  <div class="grid popup">
+      <div id="loading">Loading....</div>
+  <table cellpadding="0" cellspacing="0" border="0" class="example" id="codes" width="500px" height="500px">
+    <thead>
+      <!--<tr>
+          <th width="50%"> <b>Name</b></th>
+          <th width="50%"> <b>Path</b></th>
+      </tr> -->
+    </thead>
+    <tbody>
+
+    </tbody>
+  </table>
+  </div>
+</div>
+<script>
+function mufun(val){
+   // alert("hi");
+	$('#vast_video_filename').val(val);
+	parent.jQuery.colorbox.close();
+        $('#vast_video_filename').prop('readonly', true);
+}
+	</script>
+</body>
+</html>
